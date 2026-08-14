@@ -60,7 +60,7 @@ export default function Navbar() {
                 href="/register" 
                 className="px-5 py-2.5 bg-gradient-to-r from-amber-600 to-orange-500 text-white font-bold rounded-full hover:from-amber-500 hover:to-orange-400 transition-all text-sm shadow-md shadow-orange-500/20"
               >
-                สมัครสมาชิก
+                จองห้องพัก
               </Link>
             </div>
           ) : (

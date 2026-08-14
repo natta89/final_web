@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { User, Mail, Lock, ArrowRight, Heart, Sparkles, ShieldCheck } from "lucide-react";
+import { User, Mail, Lock, ArrowRight, Heart, Sparkles, ShieldCheck, Phone, Dog, Home } from "lucide-react";
 import swal from "sweetalert2";
 
 export default function FormRegister() {
   const [form, setForm] = useState({
     txt_firstname: "",
     txt_lastname: "",
-    txt_email: "",
-    txt_password: "",
-    txt_confirm_password: "",
+    txt_telephone: "",
+    txt_pet: "",
+    txt_room: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -25,19 +25,7 @@ export default function FormRegister() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 1. ตรวจสอบรหัสผ่านตรงกัน
-    if (form.txt_password !== form.txt_confirm_password) {
-      await swal.fire({
-        icon: "warning",
-        title: "รหัสผ่านไม่ตรงกัน",
-        text: "กรุณาตรวจสอบรหัสผ่านและการยืนยันรหัสผ่านใหม่อีกครั้ง",
-        confirmButtonText: "เข้าใจแล้ว",
-        confirmButtonColor: "#f97316",
-      });
-      return;
-    }
-
-    // 2. ตรวจสอบสถานะอินเทอร์เน็ต
+    // ตรวจสอบสถานะอินเทอร์เน็ต
     if (!navigator.onLine) {
       await swal.fire({
         icon: "error",
@@ -60,8 +48,9 @@ export default function FormRegister() {
         body: JSON.stringify({
           txt_firstname: form.txt_firstname,
           txt_lastname: form.txt_lastname,
-          txt_email: form.txt_email,
-          txt_password: form.txt_password,
+          txt_telephone: form.txt_telephone,
+          txt_pet: form.txt_pet,
+          txt_room: form.txt_room,
         }),
       });
 
@@ -85,15 +74,15 @@ export default function FormRegister() {
         setForm({
           txt_firstname: "",
           txt_lastname: "",
-          txt_email: "",
-          txt_password: "",
-          txt_confirm_password: "",
+          txt_telephone: "",
+          txt_pet: "",
+          txt_room: "",
         });
       } else if (response.status === 400) {
         await swal.fire({
           icon: "warning",
           title: "ไม่สามารถสมัครสมาชิกได้",
-          text: result.message || "อีเมลนี้อาจถูกใช้งานแล้ว หรือข้อมูลไม่ถูกต้อง",
+          text: result.message || "ข้อมูลไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง",
           confirmButtonText: "ลองอีกครั้ง",
           confirmButtonColor: "#f97316",
         });
@@ -161,7 +150,7 @@ export default function FormRegister() {
         <div className="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-center">
           <div className="mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
-              สร้างบัญชีผู้ใช้งาน
+              จองห้องพักและดูแลเพื่อนรักของคุณ
             </h2>
             <p className="text-gray-500 text-sm mt-1">
               กรอกข้อมูลด้านล่างเพื่อลงทะเบียนเข้าสู่ระบบ PetParadise
@@ -189,33 +178,31 @@ export default function FormRegister() {
             </div>
 
             <InputField
-              label="อีเมล"
-              name="txt_email"
-              value={form.txt_email}
+              label="เบอร์โทรศัพท์"
+              name="txt_telephone"
+              value={form.txt_telephone}
               onChange={handleChange}
-              icon={<Mail size={18} />}
-              type="email"
-              placeholder="name@example.com"
+              icon={<Phone size={18} />}
+              type="tel"
+              placeholder="081-234-5678"
             />
 
             <InputField
-              label="รหัสผ่าน"
-              name="txt_password"
-              value={form.txt_password}
+              label="สัตว์เลี้ยงของคุณ"
+              name="txt_pet"
+              value={form.txt_pet}
               onChange={handleChange}
-              icon={<Lock size={18} />}
-              type="password"
-              placeholder="••••••••"
+              icon={<Dog size={18} />}
+              placeholder="เช่น น้องหมา / น้องแมว"
             />
 
             <InputField
-              label="ยืนยันรหัสผ่าน"
-              name="txt_confirm_password"
-              value={form.txt_confirm_password}
+              label="ห้องพักที่ต้องการ"
+              name="txt_room"
+              value={form.txt_room}
               onChange={handleChange}
-              icon={<Lock size={18} />}
-              type="password"
-              placeholder="••••••••"
+              icon={<Home size={18} />}
+              placeholder="เช่น ห้องพักมาตรฐาน"
             />
 
             <button
